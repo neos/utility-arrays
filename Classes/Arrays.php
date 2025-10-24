@@ -180,11 +180,11 @@ abstract class Arrays
      *
      * @phpstan-param callable-string $function
      * @param array<mixed> $array the array to reduce
-     * @param string $function the reduce function with the same order of parameters as in the native array_reduce (i.e. accumulator first, then current array element)
+     * @param callable $function the reduce function with the same order of parameters as in the native array_reduce (i.e. accumulator first, then current array element)
      * @param mixed $initial the initial accumulator value
      * @return mixed
      */
-    public static function array_reduce(array $array, string $function, $initial = null)
+    public static function array_reduce(array $array, callable $function, $initial = null)
     {
         $accumulator = $initial;
         foreach ($array as $value) {
@@ -243,8 +243,9 @@ abstract class Arrays
      */
     public static function setValueByPath($subject, $path, $value)
     {
+        /** @phpstan-ignore booleanAnd.alwaysFalse (annotations may be wrong) */
         if (!is_array($subject) && !($subject instanceof \ArrayAccess)) {
-            throw new \InvalidArgumentException('setValueByPath() expects $subject to be array or an object implementing \ArrayAccess, "' . (is_object($subject) ? get_class($subject) : gettype($subject)) . '" given.', 1306424308);
+            throw new \InvalidArgumentException('setValueByPath() expects $subject to be array or an object implementing \ArrayAccess, "' . get_debug_type($subject) . '" given.', 1306424308);
         }
         if (is_string($path)) {
             $path = explode('.', $path);
