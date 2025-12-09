@@ -35,7 +35,7 @@ class PositionalArraySorterTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array
      */
-    public function invalidPositions()
+    public static function invalidPositions()
     {
         return [
             ['subject' => ['foo' => ['position' => 'invalid'], 'first' => []]],
@@ -63,7 +63,7 @@ class PositionalArraySorterTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array
      */
-    public function sampleArrays()
+    public static function sampleArrays()
     {
         return [
             [

@@ -383,7 +383,7 @@ class ArraysTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($expectedResult, $actualResult);
     }
 
-    public function arrayMergeRecursiveOverruleData()
+    public static function arrayMergeRecursiveOverruleData()
     {
         return [
             'simple usage' => [
