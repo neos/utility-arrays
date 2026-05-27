@@ -148,14 +148,14 @@ class PositionalArraySorterTest extends \PHPUnit\Framework\TestCase
      * @param string $message
      * @param array $subject
      * @param string $positionPropertyPath
-     * @param array $expectedKeyOrder
+     * @param array $expectedArrayKeys
      */
-    public function toArrayTests($message, array $subject, $positionPropertyPath, array $expectedKeyOrder)
+    public function toArrayTests($message, array $subject, $positionPropertyPath, array $expectedArrayKeys)
     {
         $positionalArraySorter = new PositionalArraySorter($subject, $positionPropertyPath);
         $result = $positionalArraySorter->toArray();
 
-        self::assertSame($expectedKeyOrder, array_keys($result), $message);
+        self::assertSame($expectedArrayKeys, array_keys($result), $message);
     }
 
     /**
@@ -165,13 +165,13 @@ class PositionalArraySorterTest extends \PHPUnit\Framework\TestCase
      * @param string $message
      * @param array $subject
      * @param string $positionPropertyPath
-     * @param array $expectedKeyOrder
+     * @param array $expectedArrayKeys
      */
-    public function getSortedKeysTests($message, array $subject, $positionPropertyPath, array $expectedKeyOrder)
+    public function getSortedKeysTests($message, array $subject, $positionPropertyPath, array $expectedArrayKeys)
     {
         $positionalArraySorter = new PositionalArraySorter($subject, $positionPropertyPath);
         $result = $positionalArraySorter->getSortedKeys();
 
-        self::assertSame($expectedKeyOrder, $result, $message);
+        self::assertSame($expectedArrayKeys, $result, $message);
     }
 }
