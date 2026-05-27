@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Neos\Utility\Arrays\Tests\Unit;
 
 /*
@@ -18,7 +20,7 @@ use Neos\Utility\ValueAccessor;
 /**
  * Testcase for the Utility Array class
  */
-class ValueAccessorTest extends \PHPUnit\Framework\TestCase
+final class ValueAccessorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

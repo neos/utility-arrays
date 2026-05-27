@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Neos\Utility\Arrays\Tests\Unit;
 
 /*
@@ -16,7 +19,7 @@ use Neos\Utility\Arrays;
 /**
  * Testcase for the Utility Array class
  */
-class ArraysTest extends \PHPUnit\Framework\TestCase
+final class ArraysTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test
@@ -297,7 +300,7 @@ class ArraysTest extends \PHPUnit\Framework\TestCase
     {
         $subject = $subjectBackup = ['foo' => 'bar'];
         Arrays::setValueByPath($subject, 'foo', 'baz');
-        self::assertEquals($subject, $subjectBackup);
+        self::assertSame($subject, $subjectBackup);
     }
 
     /**
@@ -309,7 +312,7 @@ class ArraysTest extends \PHPUnit\Framework\TestCase
         $path = ['foo', 'bar', 'nonExistingKey'];
         $expectedValue = $array;
         $actualValue = Arrays::unsetValueByPath($array, $path);
-        self::assertEquals($expectedValue, $actualValue);
+        self::assertSame($expectedValue, $actualValue);
     }
 
     /**
@@ -322,7 +325,7 @@ class ArraysTest extends \PHPUnit\Framework\TestCase
         $expectedValue = ['foo' => ['bar' => []], 'bar' => 'Baz'];
         ;
         $actualValue = Arrays::unsetValueByPath($array, $path);
-        self::assertEquals($expectedValue, $actualValue);
+        self::assertSame($expectedValue, $actualValue);
     }
 
     /**
@@ -335,7 +338,7 @@ class ArraysTest extends \PHPUnit\Framework\TestCase
         $expectedValue = ['foo' => ['bar' => []], 'bar' => 'Baz'];
         ;
         $actualValue = Arrays::unsetValueByPath($array, $path);
-        self::assertEquals($expectedValue, $actualValue);
+        self::assertSame($expectedValue, $actualValue);
     }
 
     /**
@@ -348,7 +351,7 @@ class ArraysTest extends \PHPUnit\Framework\TestCase
         $expectedValue = ['bar' => 'Baz'];
         ;
         $actualValue = Arrays::unsetValueByPath($array, $path);
-        self::assertEquals($expectedValue, $actualValue);
+        self::assertSame($expectedValue, $actualValue);
     }
 
     /**
@@ -369,7 +372,7 @@ class ArraysTest extends \PHPUnit\Framework\TestCase
         $array = ['EmptyElement' => null, 'Foo' => ['Bar' => ['Baz' => ['NotNull' => '', 'AnotherEmptyElement' => null]]]];
         $expectedResult = ['Foo' => ['Bar' => ['Baz' => ['NotNull' => '']]]];
         $actualResult = Arrays::removeEmptyElementsRecursively($array);
-        self::assertEquals($expectedResult, $actualResult);
+        self::assertSame($expectedResult, $actualResult);
     }
 
     /**
@@ -380,207 +383,197 @@ class ArraysTest extends \PHPUnit\Framework\TestCase
         $array = ['EmptyElement' => [], 'Foo' => ['Bar' => ['Baz' => ['AnotherEmptyElement' => null]]], 'NotNull' => 123];
         $expectedResult = ['NotNull' => 123];
         $actualResult = Arrays::removeEmptyElementsRecursively($array);
-        self::assertEquals($expectedResult, $actualResult);
+        self::assertSame($expectedResult, $actualResult);
     }
 
-    public static function arrayMergeRecursiveOverruleData()
+    public static function arrayMergeRecursiveOverruleData(): \Iterator
     {
-        return [
-            'simple usage' => [
-                'inputArray1' => [
-                    'k1' => 'v1',
-                    'k2' => 'v2',
-                ],
-                'inputArray2' => [
-                    'k2' => 'v2a',
-                    'k3' => 'v3'
-                ],
-                'dontAddNewKeys' => false, // default
-                'emptyValuesOverride' => true, // default
-                'expected' => [
-                    'k1' => 'v1',
-                    'k2' => 'v2a',
-                    'k3' => 'v3'
-                ]
+        yield 'simple usage' => [
+            'inputArray1' => [
+                'k1' => 'v1',
+                'k2' => 'v2',
             ],
-
-            'simple usage with recursion' => [
-                'inputArray1' => [
-                    'k1' => 'v1',
-                    'k2' => [
-                        'k2.1' => 'v2.1',
-                        'k2.2' => 'v2.2'
-                    ],
-                ],
-                'inputArray2' => [
-                    'k2' => [
-                        'k2.2' => 'v2.2a',
-                        'k2.3' => 'v2.3'
-                    ],
-                    'k3' => 'v3'
-                ],
-                'dontAddNewKeys' => false, // default
-                'emptyValuesOverride' => true, // default
-                'expected' => [
-                    'k1' => 'v1',
-                    'k2' => [
-                        'k2.1' => 'v2.1',
-                        'k2.2' => 'v2.2a',
-                        'k2.3' => 'v2.3'
-                    ],
-                    'k3' => 'v3'
-                ]
+            'inputArray2' => [
+                'k2' => 'v2a',
+                'k3' => 'v3'
             ],
-
-            'nested array with recursion' => [
-                'inputArray1' => [
-                    'k1' => 'v1',
-                    'k2' => [
-                        'k2.1' => 'v2.1',
-                        'k2.2' => 'v2.2',
-                        'k2.4' => [
-                            'k2.4.1' => 'v2.4.1'
-                        ]
-                    ],
+            'dontAddNewKeys' => false, // default
+            'emptyValuesOverride' => true, // default
+            'expected' => [
+                'k1' => 'v1',
+                'k2' => 'v2a',
+                'k3' => 'v3'
+            ]
+        ];
+        yield 'simple usage with recursion' => [
+            'inputArray1' => [
+                'k1' => 'v1',
+                'k2' => [
+                    'k2.1' => 'v2.1',
+                    'k2.2' => 'v2.2'
                 ],
-                'inputArray2' => [
-                    'k2' => [
-                        'k2.2' => 'v2.2a',
-                        'k2.3' => 'v2.3',
-                        'k2.4' => [
-                            'k2.4.2' => 'v2.4.2'
-                        ]
-                    ],
-                    'k3' => 'v3'
-                ],
-                'dontAddNewKeys' => false, // default
-                'emptyValuesOverride' => true, // default
-                'expected' => [
-                    'k1' => 'v1',
-                    'k2' => [
-                        'k2.1' => 'v2.1',
-                        'k2.2' => 'v2.2a',
-                        'k2.4' => [
-                            'k2.4.1' => 'v2.4.1',
-                            'k2.4.2' => 'v2.4.2'
-                        ],
-                        'k2.3' => 'v2.3'
-                    ],
-                    'k3' => 'v3'
-                ]
             ],
-
-            'simple type should override array (k2)' => [
-                'inputArray1' => [
-                    'k1' => 'v1',
-                    'k2' => [
-                        'k2.1' => 'v2.1'
-                    ],
+            'inputArray2' => [
+                'k2' => [
+                    'k2.2' => 'v2.2a',
+                    'k2.3' => 'v2.3'
                 ],
-                'inputArray2' => [
-                    'k2' => 'v2a',
-                    'k3' => 'v3'
-                ],
-                'dontAddNewKeys' => false, // default
-                'emptyValuesOverride' => true, // default
-                'expected' => [
-                    'k1' => 'v1',
-                    'k2' => 'v2a',
-                    'k3' => 'v3'
-                ]
+                'k3' => 'v3'
             ],
-
-            'null should override array (k2)' => [
-                'inputArray1' => [
-                    'k1' => 'v1',
-                    'k2' => [
-                        'k2.1' => 'v2.1'
-                    ],
+            'dontAddNewKeys' => false, // default
+            'emptyValuesOverride' => true, // default
+            'expected' => [
+                'k1' => 'v1',
+                'k2' => [
+                    'k2.1' => 'v2.1',
+                    'k2.2' => 'v2.2a',
+                    'k2.3' => 'v2.3'
                 ],
-                'inputArray2' => [
-                    'k2' => null,
-                    'k3' => 'v3'
-                ],
-                'dontAddNewKeys' => false, // default
-                'emptyValuesOverride' => true, // default
-                'expected' => [
-                    'k1' => 'v1',
-                    'k2' => null,
-                    'k3' => 'v3'
-                ]
-            ],
-
-            'empty array should override array (k2)' => [
-                'inputArray1' => [
-                    'k2' => [
-                        'k2.1' => 'v2.1'
-                    ],
-                ],
-                'inputArray2' => [
-                    'k2' => [],
-                ],
-                'dontAddNewKeys' => false, // default
-                'emptyValuesOverride' => true, // default
-                'expected' => [
-                    'k2' => []
-                ]
-            ],
-
-            'empty array without emptyValuesOverride should not override array (k2)' => [
-                'inputArray1' => [
-                    'k2' => [
-                        'k2.1' => 'v2.1'
-                    ],
-                ],
-                'inputArray2' => [
-                    'k2' => [],
-                ],
-                'dontAddNewKeys' => false, // default
-                'emptyValuesOverride' => false,
-                'expected' => [
-                    'k2' => [
-                        'k2.1' => 'v2.1'
+                'k3' => 'v3'
+            ]
+        ];
+        yield 'nested array with recursion' => [
+            'inputArray1' => [
+                'k1' => 'v1',
+                'k2' => [
+                    'k2.1' => 'v2.1',
+                    'k2.2' => 'v2.2',
+                    'k2.4' => [
+                        'k2.4.1' => 'v2.4.1'
                     ]
-                ]
+                ],
             ],
-
-            'empty array without emptyValuesOverride should add new key (k3)' => [
-                'inputArray1' => [
-                    'k2' => [
-                        'k2.1' => 'v2.1'
-                    ],
+            'inputArray2' => [
+                'k2' => [
+                    'k2.2' => 'v2.2a',
+                    'k2.3' => 'v2.3',
+                    'k2.4' => [
+                        'k2.4.2' => 'v2.4.2'
+                    ]
                 ],
-                'inputArray2' => [
-                    'k3' => [],
-                ],
-                'dontAddNewKeys' => false, // default
-                'emptyValuesOverride' => false,
-                'expected' => [
-                    'k2' => [
-                        'k2.1' => 'v2.1'
-                    ],
-                    'k3' => []
-                ]
+                'k3' => 'v3'
             ],
-
-            'empty array without emptyValuesOverride should not override existing key (k3)' => [
-                'inputArray1' => [
-                    'k2' => [
-                        'k2.1' => 'v2.1'
+            'dontAddNewKeys' => false, // default
+            'emptyValuesOverride' => true, // default
+            'expected' => [
+                'k1' => 'v1',
+                'k2' => [
+                    'k2.1' => 'v2.1',
+                    'k2.2' => 'v2.2a',
+                    'k2.4' => [
+                        'k2.4.1' => 'v2.4.1',
+                        'k2.4.2' => 'v2.4.2'
                     ],
-                    'k3' => 'v3'
+                    'k2.3' => 'v2.3'
                 ],
-                'inputArray2' => [
-                    'k3' => [],
+                'k3' => 'v3'
+            ]
+        ];
+        yield 'simple type should override array (k2)' => [
+            'inputArray1' => [
+                'k1' => 'v1',
+                'k2' => [
+                    'k2.1' => 'v2.1'
                 ],
-                'dontAddNewKeys' => false, // default
-                'emptyValuesOverride' => false,
-                'expected' => [
-                    'k2' => [
-                        'k2.1' => 'v2.1'
-                    ],
-                    'k3' => 'v3'
+            ],
+            'inputArray2' => [
+                'k2' => 'v2a',
+                'k3' => 'v3'
+            ],
+            'dontAddNewKeys' => false, // default
+            'emptyValuesOverride' => true, // default
+            'expected' => [
+                'k1' => 'v1',
+                'k2' => 'v2a',
+                'k3' => 'v3'
+            ]
+        ];
+        yield 'null should override array (k2)' => [
+            'inputArray1' => [
+                'k1' => 'v1',
+                'k2' => [
+                    'k2.1' => 'v2.1'
+                ],
+            ],
+            'inputArray2' => [
+                'k2' => null,
+                'k3' => 'v3'
+            ],
+            'dontAddNewKeys' => false, // default
+            'emptyValuesOverride' => true, // default
+            'expected' => [
+                'k1' => 'v1',
+                'k2' => null,
+                'k3' => 'v3'
+            ]
+        ];
+        yield 'empty array should override array (k2)' => [
+            'inputArray1' => [
+                'k2' => [
+                    'k2.1' => 'v2.1'
+                ],
+            ],
+            'inputArray2' => [
+                'k2' => [],
+            ],
+            'dontAddNewKeys' => false, // default
+            'emptyValuesOverride' => true, // default
+            'expected' => [
+                'k2' => []
+            ]
+        ];
+        yield 'empty array without emptyValuesOverride should not override array (k2)' => [
+            'inputArray1' => [
+                'k2' => [
+                    'k2.1' => 'v2.1'
+                ],
+            ],
+            'inputArray2' => [
+                'k2' => [],
+            ],
+            'dontAddNewKeys' => false, // default
+            'emptyValuesOverride' => false,
+            'expected' => [
+                'k2' => [
+                    'k2.1' => 'v2.1'
                 ]
+            ]
+        ];
+        yield 'empty array without emptyValuesOverride should add new key (k3)' => [
+            'inputArray1' => [
+                'k2' => [
+                    'k2.1' => 'v2.1'
+                ],
+            ],
+            'inputArray2' => [
+                'k3' => [],
+            ],
+            'dontAddNewKeys' => false, // default
+            'emptyValuesOverride' => false,
+            'expected' => [
+                'k2' => [
+                    'k2.1' => 'v2.1'
+                ],
+                'k3' => []
+            ]
+        ];
+        yield 'empty array without emptyValuesOverride should not override existing key (k3)' => [
+            'inputArray1' => [
+                'k2' => [
+                    'k2.1' => 'v2.1'
+                ],
+                'k3' => 'v3'
+            ],
+            'inputArray2' => [
+                'k3' => [],
+            ],
+            'dontAddNewKeys' => false, // default
+            'emptyValuesOverride' => false,
+            'expected' => [
+                'k2' => [
+                    'k2.1' => 'v2.1'
+                ],
+                'k3' => 'v3'
             ]
         ];
     }
