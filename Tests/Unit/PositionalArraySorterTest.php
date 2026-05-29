@@ -13,18 +13,18 @@ namespace Neos\Utility\Arrays\Tests\Unit;
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
-
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Neos\Utility\Exception\InvalidPositionException;
 use Neos\Utility\PositionalArraySorter;
 
 /**
  * Tests for the PositionalArraySorter utility class
  */
-final class PositionalArraySorterTest extends \PHPUnit\Framework\TestCase
+final class PositionalArraySorterTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function toArraySortsNumericKeysIfNoPositionMetaDataIsSet()
     {
         $array = [2 => 'foo', 1 => 'bar', 'z' => 'baz', 'a' => 'quux'];
@@ -49,11 +49,11 @@ final class PositionalArraySorterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test
-     * @dataProvider invalidPositions
      *
      * @param array $subject
      */
+    #[DataProvider('invalidPositions')]
+    #[Test]
     public function toArrayThrowsExceptionForInvalidPositions(array $subject)
     {
         $this->expectException(InvalidPositionException::class);
@@ -141,14 +141,14 @@ final class PositionalArraySorterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test
-     * @dataProvider sampleArrays
      *
      * @param string $message
      * @param array $subject
      * @param string $positionPropertyPath
      * @param array $expectedArrayKeys
      */
+    #[DataProvider('sampleArrays')]
+    #[Test]
     public function toArrayTests($message, array $subject, $positionPropertyPath, array $expectedArrayKeys)
     {
         $positionalArraySorter = new PositionalArraySorter($subject, $positionPropertyPath);
@@ -158,14 +158,14 @@ final class PositionalArraySorterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test
-     * @dataProvider sampleArrays
      *
      * @param string $message
      * @param array $subject
      * @param string $positionPropertyPath
      * @param array $expectedArrayKeys
      */
+    #[DataProvider('sampleArrays')]
+    #[Test]
     public function getSortedKeysTests($message, array $subject, $positionPropertyPath, array $expectedArrayKeys)
     {
         $positionalArraySorter = new PositionalArraySorter($subject, $positionPropertyPath);

@@ -13,18 +13,17 @@ namespace Neos\Utility\Arrays\Tests\Unit;
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
-
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Neos\Utility\Arrays;
 use Neos\Utility\ValueAccessor;
 
 /**
  * Testcase for the Utility Array class
  */
-final class ValueAccessorTest extends \PHPUnit\Framework\TestCase
+final class ValueAccessorTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function intAccessorWorks()
     {
         $acceptableValues = [0, 1, -1, 99999, -99999];
@@ -34,9 +33,7 @@ final class ValueAccessorTest extends \PHPUnit\Framework\TestCase
         $this->testAccessor([...$acceptableValues, null], $inacceptableValues, 'intOrNull');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function floatAccessorWorks()
     {
         $acceptableValues = [0.000001, 1.000001];
@@ -46,9 +43,7 @@ final class ValueAccessorTest extends \PHPUnit\Framework\TestCase
         $this->testAccessor([...$acceptableValues, null], $inacceptableValues, 'floatOrNull');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function numberAccessorWorks()
     {
         $acceptableValues = [0.000001, 1.000001, 0, 1, 99999, -1, -99999];
@@ -58,9 +53,7 @@ final class ValueAccessorTest extends \PHPUnit\Framework\TestCase
         $this->testAccessor([...$acceptableValues, null], $inacceptableValues, 'numberOrNull');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stringAccessorWorks()
     {
         $acceptableValues = ['string', ''];
@@ -70,9 +63,7 @@ final class ValueAccessorTest extends \PHPUnit\Framework\TestCase
         $this->testAccessor([...$acceptableValues, null], $inacceptableValues, 'stringOrNull');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function arrayAccessorWorks()
     {
         $acceptableValues = [[], [1,2,3], ['foo'=>'bar']];
@@ -82,9 +73,7 @@ final class ValueAccessorTest extends \PHPUnit\Framework\TestCase
         $this->testAccessor([...$acceptableValues, null], $inacceptableValues, 'arrayOrNull');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function classstringAccessorWorks()
     {
         $acceptableValues = [\DateTime::class, \DateTimeImmutable::class];
@@ -94,9 +83,7 @@ final class ValueAccessorTest extends \PHPUnit\Framework\TestCase
         $this->testAccessor([...$acceptableValues, null], $inacceptableValues, 'classStringOrNull');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function instanceOfAccessorWorks()
     {
         $acceptableAsDateTimeInterface = [new \DateTime(), new \DateTimeImmutable()];
