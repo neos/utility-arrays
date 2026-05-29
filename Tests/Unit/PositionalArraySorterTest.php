@@ -91,7 +91,7 @@ final class PositionalArraySorterTest extends TestCase
             'expectedArrayKeys' => ['first', 'second']
         ];
         yield [
-            'Positional numbers are in the middle',
+            "message" => 'Positional numbers are in the middle',
             'subject' => ['last' => ['__meta' => ['position' => 'end']], 'second' => ['__meta' => ['position' => '17']], 'first' => ['__meta' => ['position' => '5']], 'third' => ['__meta' => ['position' => '18']]],
             'positionPropertyPath' => '__meta.position',
             'expectedArrayKeys' => ['first', 'second', 'third', 'last']
@@ -115,7 +115,7 @@ final class PositionalArraySorterTest extends TestCase
             'expectedArrayKeys' => ['first', 'second', 'third']
         ];
         yield [
-            'Position after adds after named element if present',
+            "message" => 'Position after adds after named element if present',
             'subject' => ['second' => ['__meta' => ['position' => 'after first']], 'first' => []],
             'positionPropertyPath' => '__meta.position',
             'expectedArrayKeys' => ['first', 'second']
