@@ -72,7 +72,7 @@ class ValueAccessorTest extends \PHPUnit\Framework\TestCase
      */
     public function arrayAccessorWorks()
     {
-        $acceptableValues = [[], [1,2,3], ['foo'=>'bar']];
+        $acceptableValues = [[], [1,2,3], ['foo' => 'bar']];
         $inacceptableValues = [0, 1, 99999, -1, -99999, true, false, 'string', new \DateTimeImmutable()];
 
         $this->testAccessor($acceptableValues, [...$inacceptableValues, null], 'array');
